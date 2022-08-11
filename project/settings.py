@@ -1,16 +1,19 @@
 import os
+from environs import Env
 
 
-DEBUG = os.getenv('DEBUG', False) == 'True'
+env = Env()
+env.read_env()
+DEBUG = env.bool("DEBUG")
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('ENGINE'),
-        'HOST': os.environ.get('HOST'),
-        'PORT': os.environ.get('PORT'),
-        'NAME': os.environ.get('NAME'),
-        'USER': os.environ.get('USER'),
-        'PASSWORD': os.environ.get('PASSWORD'),
+        'ENGINE': os.environ.get('DB_ENGINE'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
     }
 }
 INSTALLED_APPS = ['datacenter']
@@ -19,7 +22,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 ROOT_URLCONF = 'project.urls'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES = [
